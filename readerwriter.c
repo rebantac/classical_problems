@@ -76,11 +76,8 @@ int main()
         // int pthread_create (thread, attr, start_routine (void *), arg)
         pthread_create(&write[i], NULL, (void *)writer, (void *)&a[i]);
     }
-    // for(int i = 0; i < 5; i++) {
-        
-    // }
-
-
+    
+    
     // int pthread_join (thread, status)
     // pthread_t thread;
     // void **status;
