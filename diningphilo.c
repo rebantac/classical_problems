@@ -9,6 +9,7 @@ sem_t chopstick[5];
 
 void *philosopher(void *);
 void eat(int);
+void think(int);
 
 int main()
 {
@@ -27,6 +28,8 @@ int main()
 	}
 	for (i = 0; i < 5; i++)
 		pthread_join(tid[i], NULL);
+
+	return 0;
 }
 
 void *philosopher(void *num)
@@ -34,20 +37,26 @@ void *philosopher(void *num)
 	int phil = *(int *)num;
 
 	sem_wait(&room);
-	printf("\nPhilosopher %d has entered room", phil);
+		printf("\nPhilosopher %d is hungry.", phil);
 
-	sem_wait(&chopstick[phil]);
-	sem_wait(&chopstick[(phil + 1) % 5]);
+		sem_wait(&chopstick[phil]);
+			sem_wait(&chopstick[(phil + 1) % 5]);
 
-	eat(phil);
-	printf("\nPhilosopher %d has finished eating.\n", phil);
+				eat(phil);
+				
 
-	sem_post(&chopstick[(phil + 1) % 5]);
-	sem_post(&chopstick[phil]);
+			sem_post(&chopstick[(phil + 1) % 5]);
+		sem_post(&chopstick[phil]);
+		printf("\nPhilosopher %d has finished eating.\n", phil);
+
 	sem_post(&room);
+	think(phil);
 }
 
-void eat(int phil)
-{
+void eat(int phil){
 	printf("\nPhilosopher %d is eating.", phil);
+}
+
+void think(int phil) {
+	printf("\nPhilosopher %d is now thinking.\n", phil);
 }
